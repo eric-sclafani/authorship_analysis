@@ -1,7 +1,7 @@
 
 from dash import html, Dash, dcc
 import dash_bootstrap_components as dbc
-from components import plots
+from components import scatter_plots
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
 app.title = "Authorship Analysis"
@@ -17,7 +17,7 @@ app.layout = html.Div([
     
     html.Div(className="tabs-div",
              children=[
-                 dcc.Graph(figure=plots.document_vector_plot())])
+                 dcc.Graph(figure=scatter_plots.document_vector_plot())])
     ]
                       )
 
