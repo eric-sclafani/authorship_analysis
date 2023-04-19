@@ -57,16 +57,23 @@ def author_vector_plot():
         x="MDS Dim 1",
         y="MDS Dim 2",  
         color="K Cluster",
-        color_continuous_scale="fall"
+        color_continuous_scale="fall",
+        hover_data={
+            "MDS Dim 1":False,
+            "MDS Dim 2":False,
+            "author_id":True},
     )
-    
     fig.update_layout(
         title="Author Vectors",
-        title_x=0.2,
+        title_x=0.47,
         autosize=False,
         width=500,
         height=350,
+        font_family = "Courier New",
+        title_font_family = "Courier New",
+        hoverlabel = dict(font_size = 16,font_family = "Sitka Small")
         )
+
     return fig
 
 def document_vector_plot(selected_author=None):
@@ -82,14 +89,22 @@ def document_vector_plot(selected_author=None):
         x="TSNE Dim 1",
         y="TSNE Dim 2",
         color="K Cluster",
-        color_continuous_scale="fall"
+        color_continuous_scale="fall",
+        hover_data={
+            "TSNE Dim 1":False,
+            "TSNE Dim 2":False,
+            "author_id":True}
     )
     fig.update_layout(
         title="Document Vectors",
         title_x=0.5,
         autosize=False,
-        width=750,
+        width=900,
         height=350,
-        margin=dict(l=0, r=0))
+        margin=dict(l=0, r=0),
+        font_family="Courier New",
+        title_font_family="Courier New",
+        hoverlabel = dict(font_size = 16,font_family = "Sitka Small")
+        )
     
     return fig

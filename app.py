@@ -20,16 +20,15 @@ app.layout = html.Div([
     
     html.Div(className="main-div",
              children=[
-                 dbc.Container([
-                     dbc.Row(
-                         [
-                             dbc.Col(dcc.Graph(id="av-plot", figure=scatter_plots.author_vector_plot())),
-                             dbc.Col(dcc.Graph(id="dv-plot"))
-                         ],
-                         className="g-0")])
-                 ]
-             )
+                 dbc.Stack([dcc.Graph(id="av-plot", figure=scatter_plots.author_vector_plot()), dcc.Graph(id="dv-plot")],
+                           gap=0,
+                           direction="horizontal"
+                           )
+                 ])
     ])
+                         
+                            
+    
 
 
 #~~~Callbacks~~~
