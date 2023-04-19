@@ -6,11 +6,6 @@ from dash import html, Dash, dcc
 import dash_bootstrap_components as dbc
 from components import scatter_plots
 
-
-#~~~Data~~~
-docs_df = pd.read_csv("data/document_vectors.csv")
-authors_df = pd.read_csv("data/author_vectors.csv")
-
 #~~~App~~~
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
