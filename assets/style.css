@@ -1,17 +1,5 @@
-hr {
-    border-top: 10px solid red;
-}
 
-.h1{
-    font-family: "Bradley Hand", cursive;
-    text-align: center;
-    color: red;
-}
-.h2{
-    font-family: "copperplate", fantasy;
-}
-.h4{
-    font-family: "Lucida Handwriting", cursive;
-    text-align: center;
-    color: red;
+body{
+    background-color: white;
+    margin: 0;
 }

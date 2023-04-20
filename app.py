@@ -30,10 +30,10 @@ app.layout = html.Div([
 
 @dash.callback(Output("dv-plot", "figure"),
                Input("av-plot", "hoverData"))
-def update_dv_plot_hover(selected_author):
+def update_dv_plot_hover(hovered_author):
 
-    if selected_author:
-        author_index = selected_author["points"][0]["pointIndex"]
+    if hovered_author:
+        author_index = hovered_author["points"][0]["pointIndex"]
         return scatter_plots.document_vector_plot(author_index)
     else:
         return scatter_plots.document_vector_plot()
