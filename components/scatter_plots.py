@@ -14,8 +14,6 @@ def get_doc_ids_given_author(author_index:int, doc_df:pd.DataFrame) -> List[str]
     """Retrieves the document IDs for all documents written by a given author"""
     return doc_df.loc[doc_df['author_id'] == authors_df.iloc[author_index].author_id]["doc_id"].to_list()
 
-
-
 #~~~ Plot functions ~~~   
   
 def author_vector_plot():
@@ -43,7 +41,9 @@ def author_vector_plot():
         height=350,
         font_family = "Courier New",
         title_font_family = "Courier New",
-        hoverlabel = dict(font_size = 16,font_family = "Sitka Small")
+        hoverlabel = dict(font_size = 16,font_family = "Sitka Small"),
+        xaxis_title=None,
+        yaxis_title=None
         )
 
     return fig
@@ -57,9 +57,9 @@ def document_vector_plot(hovered_author=None):
 
     if hovered_author is not None:
         doc_ids = get_doc_ids_given_author(hovered_author, docs_df)
-        df["Foreground Author"] = ["1" if n in doc_ids else "0" for n in docs_df["doc_id"]]
+        df["Is Foreground Author"] = ["True" if n in doc_ids else "False" for n in docs_df["doc_id"]]
     else:
-        df["Foreground Author"] = "0"
+        df["Is Foreground Author"] = "False"
 
     fig = px.scatter(
         data_frame = df,
@@ -69,8 +69,8 @@ def document_vector_plot(hovered_author=None):
             "TSNE Dim 1":False,
             "TSNE Dim 2":False,
             "author_id":True},
-        color=df["Foreground Author"], 
-        color_discrete_map={"0":"lightgray", "1":"red"},
+        color=df["Is Foreground Author"], 
+        color_discrete_map={"False":"lightgray", "True":"red"},
         
     )
     fig.update_layout(
@@ -82,7 +82,9 @@ def document_vector_plot(hovered_author=None):
         font_family="Courier New",
         title_font_family="Courier New",
         hoverlabel=dict(font_size = 16,font_family = "Sitka Small"),
-        coloraxis_showscale=False
+        coloraxis_showscale=False,
+        xaxis_title=None,
+        yaxis_title=None
         )
     
     fig.update_coloraxes(showscale=False)
