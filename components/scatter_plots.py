@@ -1,5 +1,6 @@
 
 import plotly.express as px
+import plotly.graph_objects as go
 import pandas as pd
 from typing import List
 
@@ -22,17 +23,16 @@ def author_vector_plot():
                        "MDS Dim 1":processed_author_vectors[:,0],
                        "MDS Dim 2": processed_author_vectors[:,1],
                        "K Cluster": author_kmeans.labels_})
-    fig = px.scatter(
-        data_frame = df,
-        x="MDS Dim 1",
-        y="MDS Dim 2",  
-        color="K Cluster",
-        color_continuous_scale="fall",
-        hover_data={
-            "MDS Dim 1":False,
-            "MDS Dim 2":False,
-            "author_id":True},
-    )
+    
+    fig = go.Figure(go.Scatter(
+        mode="markers",
+        x=df["MDS Dim 1"],
+        y=df["MDS Dim 2"],
+        text=df["author_id"],
+        marker_color=df["K Cluster"],
+        marker=dict(colorscale=["blue", "red", "orange", "green"]),
+        hovertemplate="<b>Author</b>: %{text}<extra></extra> "
+    ))
     fig.update_layout(
         title="Author Vectors",
         title_x=0.47,
@@ -45,6 +45,7 @@ def author_vector_plot():
         xaxis_title=None,
         yaxis_title=None
         )
+    
 
     return fig
 
@@ -61,6 +62,8 @@ def document_vector_plot(hovered_author=None):
     else:
         df["Is Foreground Author"] = "False"
 
+
+
     fig = px.scatter(
         data_frame = df,
         x="TSNE Dim 1",
@@ -71,8 +74,9 @@ def document_vector_plot(hovered_author=None):
             "author_id":True},
         color=df["Is Foreground Author"], 
         color_discrete_map={"False":"lightgray", "True":"red"},
-        
-    )
+        )
+    
+    
     fig.update_layout(
         title="Document Vectors",
         title_x=0.5,

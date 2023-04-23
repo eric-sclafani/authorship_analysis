@@ -8,8 +8,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from processing import text_docs_df
 
 
-# create an img through matplotlib and load using ploty in Dash
-
 #~~~Helpers~~~
 
 def _get_author_documents(author_id:str) -> List[str]:
