@@ -2,6 +2,7 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import random
 from typing import List, Dict
+from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # project
@@ -53,22 +54,21 @@ def generate_all_wordclouds() -> Dict[str, WordCloud]:
     return author_wordcloud_map
         
         
-        
-
-
+    
 def retrieve_wc_given_author_id(author_id:str):
-    """"""
+    """Retrieves the word cloud of an author"""
+    
     
     
     
     
 def main():
     
-    wordclouds = generate_all_wordclouds()
-    save_wordclouds_to_disk(wordclouds)
+    if not Path("data/wordclouds/").exists:
+        wordclouds = generate_all_wordclouds()
+        save_wordclouds_to_disk(wordclouds)
+        
     
-    
-    
-    
+
 if __name__ == "__main__":
     main()
