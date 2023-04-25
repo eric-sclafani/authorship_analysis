@@ -1,12 +1,13 @@
 
 import dash
-import pandas as pd
-from PIL import Image
 from typing import Dict
 from dash.dependencies import Input, Output
 from dash import html, Dash, dcc
 import dash_bootstrap_components as dbc
+
+# project imports
 from components import scatter_plots
+from components.get_wordcloud import retrieve_wc_given_author, Image
 
 
 #~~~App~~~
@@ -31,10 +32,10 @@ app.layout = html.Div([
                            gap=0,
                            direction="horizontal")]
              ),
-   # html.Div(className="wc-div",
-             #children=[
-                 #dbc.Stack([html.Img(src="", style={'height':'21%', 'width':'21%'}, id="wc-image")])
-             #])
+   html.Div(className="wc-div",
+             children=[
+                 dbc.Stack([html.Img(style={'height':'21%', 'width':'21%'}, id="wc-image")])
+             ])
     ])
 
 
@@ -45,7 +46,7 @@ app.layout = html.Div([
 
 @dash.callback(Output("dv-plot", "figure"),
                Input("av-plot", "clickData"))
-def update_dv_plot(clicked_author:Dict):
+def get_av_clicked_data(clicked_author:Dict):
     if clicked_author:
         author_index = clicked_author["points"][0]["pointIndex"]
         return scatter_plots.document_vector_plot(author_index)
@@ -54,15 +55,18 @@ def update_dv_plot(clicked_author:Dict):
 
 
     
-# @dash.callback(Output("dv-plot", "figure"),
-#                Input("av-plot", "hoverData"))   
-# def get_wordcloud(hovered_author):
-
-#      if hovered_author:
-#         author_index = hovered_author["points"][0]["pointIndex"]
-
+@dash.callback(Output("wc-image", "src"),
+               Input("av-plot", "clickData"))   
+def get_wordcloud(selected_author):
+    
+    if selected_author:
+        author_index = selected_author["points"][0]["pointIndex"]
+        wc = retrieve_wc_given_author(author_index)
+        return wc
+    else:
+        return Image.open("data/wordclouds/default_tfidf_wc.png")
+    
         
-#         pil_image = Image.open()
     
 
 

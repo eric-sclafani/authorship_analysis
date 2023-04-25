@@ -71,6 +71,8 @@ def document_vector_plot(selected_author=None):
     else:
         df[author_col] = "False"
     
+    
+    #! TODO: ADD OPACITY
     fig = px.scatter(
         data_frame = df,
         x="TSNE Dim 1",
@@ -78,7 +80,7 @@ def document_vector_plot(selected_author=None):
         hover_data={
             "TSNE Dim 1":False,
             "TSNE Dim 2":False,
-            "author_id":True},
+            "author_id":False},
         color=df[author_col], 
         color_discrete_map={"True" :"red", "False":"lightgray"},
         category_orders={author_col:["True", "False"]}
