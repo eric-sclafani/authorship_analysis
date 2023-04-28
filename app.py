@@ -7,7 +7,7 @@ import dash_bootstrap_components as dbc
 
 # project imports
 from components import scatter_plots
-from components.get_wordcloud import retrieve_wc_given_author, Image
+from components.get_wordcloud import retrieve_wc_given_author, Image, _get_author_id
 
 
 #~~~App~~~
@@ -34,7 +34,8 @@ app.layout = html.Div([
              ),
    html.Div(className="wc-div",
              children=[
-                 dbc.Stack([html.Img(style={'height':'21%', 'width':'21%'}, id="wc-image")])
+                 dbc.Stack([html.H4(id="wc-header"), 
+                            html.Img(style={"height":"21%", "width":"21%"}, id="wc-image")])
              ])
     ])
 
@@ -54,21 +55,28 @@ def get_av_clicked_data(clicked_author:Dict):
         return scatter_plots.document_vector_plot()
 
 
-    
 @dash.callback(Output("wc-image", "src"),
                Input("av-plot", "clickData"))   
-def get_wordcloud(selected_author):
+def get_wordcloud(clicked_author):
     
-    if selected_author:
-        author_index = selected_author["points"][0]["pointIndex"]
+    if clicked_author:
+        author_index = clicked_author["points"][0]["pointIndex"]
         wc = retrieve_wc_given_author(author_index)
         return wc
     else:
         return Image.open("data/wordclouds/default_tfidf_wc.png")
     
-        
     
-
+    
+@dash.callback(Output("wc-header", "children"),
+               Input("av-plot", "clickData"))  
+def update_wc_header(clicked_author):
+    if clicked_author:
+        author_index = clicked_author["points"][0]["pointIndex"]
+        return f"{_get_author_id(author_index)}'s TFIDF word cloud"
+    else:
+        return "Corpus TFIDF word cloud"
+    
 
 
         

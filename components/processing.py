@@ -33,3 +33,5 @@ processed_doc_vectors = doc_pipeline.fit_transform(doc_vectors)
 
 # unvectorized text documents (data is not publicly available, so I cannot version control it)
 text_docs_df = pd.read_json("data/documents/pan22_preprocessed.jsonl", lines=True)
+
+

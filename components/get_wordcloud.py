@@ -12,9 +12,11 @@ from .processing import text_docs_df, authors_df
 
 #~~~Helpers~~~
 
+
 def _get_author_id(author_index:int) -> str:
     """Gets the author id given a DataFrame index"""
-    return authors_df.iloc[author_index].author_id if author_index else "None"
+    
+    return authors_df.iloc[author_index].author_id if author_index is not None else "None"
 
 def _get_author_documents(author_id:str) -> List[str]:
     """returns an author's list of documents"""
@@ -76,6 +78,7 @@ def retrieve_wc_given_author(author_index:str) -> Image:
     author_id = _get_author_id(author_index)
     filenames = [str(file) for file in Path("data/wordclouds/").glob("*")]
     author_file = list(filter(lambda x: author_id in x, filenames))[0]
+
     return Image.open(author_file)
         
     
