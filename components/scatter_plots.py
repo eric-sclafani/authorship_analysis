@@ -21,7 +21,6 @@ def get_doc_ids_given_author(author_index:int, doc_df:pd.DataFrame) -> List[str]
     return doc_df.loc[doc_df['author_id'] == authors_df.iloc[author_index].author_id]["doc_id"].to_list()
 
 
-
 #~~~ Plot functions ~~~   
   
 def author_vector_plot():
@@ -52,6 +51,7 @@ def author_vector_plot():
         hoverlabel = dict(font_size = 16,font_family = "Sitka Small"),
         xaxis_title=None,
         yaxis_title=None,
+        margin=dict(t=20, l=20, b=150)
         )
     
     return fig
@@ -67,25 +67,21 @@ def document_vector_plot(selected_author=None):
     author_col = f"From Author: {author_id}"
     if selected_author is not None:
         doc_ids = get_doc_ids_given_author(selected_author, docs_df)
-        df[author_col] = ["True" if n in doc_ids else "False" for n in docs_df["doc_id"]]
+        df[author_col] = [1 if n in doc_ids else 0 for n in docs_df["doc_id"]]
+        df["opacity"] = np.where(df[author_col] == 1, 1, .45)
     else:
-        df[author_col] = "False"
+        df[author_col] = 1
+        df["opacity"] = 1
     
-    
-    #! TODO: ADD OPACITY
-    fig = px.scatter(
-        data_frame = df,
-        x="TSNE Dim 1",
-        y="TSNE Dim 2",
-        hover_data={
-            "TSNE Dim 1":False,
-            "TSNE Dim 2":False,
-            "author_id":False},
-        color=df[author_col], 
-        color_discrete_map={"True" :"red", "False":"lightgray"},
-        category_orders={author_col:["True", "False"]}
-        )
-    
+    fig = go.Figure(go.Scatter(
+        mode="markers",
+        x=df["TSNE Dim 1"],
+        y=df["TSNE Dim 2"],
+        text=df["author_id"],
+        marker_color=df[author_col],
+        marker=dict(colorscale=["lightgray", "red"], opacity=df["opacity"], color="lightgray"),
+        hovertemplate="<b>Author</b>: %{text}<extra></extra>" 
+    ))
     fig.update_layout(
         title="Document Vectors",
         title_x=0.5,
@@ -98,6 +94,7 @@ def document_vector_plot(selected_author=None):
         coloraxis_showscale=False,
         xaxis_title=None,
         yaxis_title=None,
+        margin=dict(l=20, t=20, b=150)
         )
     
 

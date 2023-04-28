@@ -7,7 +7,7 @@ import dash_bootstrap_components as dbc
 
 # project imports
 from components import scatter_plots
-from components.get_wordcloud import retrieve_wc_given_author, Image, _get_author_id
+from components.get_wordcloud import retrieve_wc_given_author, Image, get_author_id
 
 
 #~~~App~~~
@@ -73,7 +73,7 @@ def get_wordcloud(clicked_author):
 def update_wc_header(clicked_author):
     if clicked_author:
         author_index = clicked_author["points"][0]["pointIndex"]
-        return f"{_get_author_id(author_index)}'s TFIDF word cloud"
+        return f"{get_author_id(author_index)}'s TFIDF word cloud"
     else:
         return "Corpus TFIDF word cloud"
     

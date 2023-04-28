@@ -13,7 +13,7 @@ from .processing import text_docs_df, authors_df
 #~~~Helpers~~~
 
 
-def _get_author_id(author_index:int) -> str:
+def get_author_id(author_index:int) -> str:
     """Gets the author id given a DataFrame index"""
     
     return authors_df.iloc[author_index].author_id if author_index is not None else "None"
@@ -75,7 +75,7 @@ def generate_overall_tfidf_wc() -> WordCloud:
 def retrieve_wc_given_author(author_index:str) -> Image:
     """Retrieves the word cloud of an author"""
     
-    author_id = _get_author_id(author_index)
+    author_id = get_author_id(author_index)
     filenames = [str(file) for file in Path("data/wordclouds/").glob("*")]
     author_file = list(filter(lambda x: author_id in x, filenames))[0]
 
