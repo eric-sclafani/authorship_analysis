@@ -7,7 +7,9 @@ import dash_bootstrap_components as dbc
 
 # project imports
 from components import scatter_plots
-from components.get_wordcloud import retrieve_wc_given_author, Image, get_author_id
+from components.get_wordcloud import retrieve_wc_given_author, Image
+from components.processing import get_author_id
+from components.feature_selector import author_identifying_features_pcp, default_pcp_plot
 
 
 #~~~App~~~
@@ -35,13 +37,12 @@ app.layout = html.Div([
    html.Div(className="wc-div",
              children=[
                  dbc.Stack([html.H4(id="wc-header"), 
-                            html.Img(style={"height":"21%", "width":"21%"}, id="wc-image")])
+                            html.Img(style={"height":"21%", "width":"21%"}, id="wc-image")]),
+                 
+                 dbc.Stack([dcc.Graph(id="pcp")])
              ])
     ])
 
-
-                         
-                    
 
 #~~~Callbacks~~~
 
@@ -67,7 +68,6 @@ def get_wordcloud(clicked_author):
         return Image.open("data/wordclouds/default_tfidf_wc.png")
     
     
-    
 @dash.callback(Output("wc-header", "children"),
                Input("av-plot", "clickData"))  
 def update_wc_header(clicked_author):
@@ -76,6 +76,15 @@ def update_wc_header(clicked_author):
         return f"{get_author_id(author_index)}'s TFIDF word cloud"
     else:
         return "Corpus TFIDF word cloud"
+    
+@dash.callback(Output("pcp", "figure"),
+               Input("av-plot", "clickData"))
+def update_pcp(clicked_author):
+    if clicked_author:
+        author_index = clicked_author["points"][0]["pointIndex"]
+        return author_identifying_features_pcp(author_index)
+    else:
+        return default_pcp_plot()
     
 
 

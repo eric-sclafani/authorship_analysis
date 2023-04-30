@@ -8,17 +8,7 @@ from typing import List
 # project
 from .processing import authors_df, processed_author_vectors, author_kmeans
 from .processing import docs_df, processed_doc_vectors
-
-
-#~~~Helpers~~~
-
-def get_author_id(author_index:int) -> str:
-    """Gets the author id given a DataFrame index"""
-    return authors_df.iloc[author_index].author_id if author_index else "None"
-
-def get_doc_ids_given_author(author_index:int, doc_df:pd.DataFrame) -> List[str]:
-    """Retrieves the document IDs for all documents written by a given author"""
-    return doc_df.loc[doc_df['author_id'] == authors_df.iloc[author_index].author_id]["doc_id"].to_list()
+from .processing import get_author_id, get_doc_ids_given_author
 
 
 #~~~ Plot functions ~~~   
@@ -56,17 +46,17 @@ def author_vector_plot():
     
     return fig
 
-def document_vector_plot(selected_author=None):
+def document_vector_plot(clicked_author=None):
     
     df = pd.DataFrame({"author_id":docs_df["author_id"],
                        "TSNE Dim 1":processed_doc_vectors[:,0],
                        "TSNE Dim 2": processed_doc_vectors[:,1],
                        })
     
-    author_id = get_author_id(selected_author)
+    author_id = get_author_id(clicked_author)
     author_col = f"From Author: {author_id}"
-    if selected_author is not None:
-        doc_ids = get_doc_ids_given_author(selected_author, docs_df)
+    if clicked_author is not None:
+        doc_ids = get_doc_ids_given_author(clicked_author, docs_df)
         df[author_col] = [1 if n in doc_ids else 0 for n in docs_df["doc_id"]]
         df["opacity"] = np.where(df[author_col] == 1, 1, .45)
     else:
@@ -96,8 +86,4 @@ def document_vector_plot(selected_author=None):
         yaxis_title=None,
         margin=dict(l=20, t=20, b=150)
         )
-    
-
-
-    
     return fig
