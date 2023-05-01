@@ -36,10 +36,12 @@ app.layout = html.Div([
              ),
    html.Div(className="wc-div",
              children=[
-                 dbc.Stack([html.H4(id="wc-header"), 
-                            html.Img(style={"height":"21%", "width":"21%"}, id="wc-image")]),
+                 dbc.Stack([html.Img(style={"height":"23%", "width":"23%"}, id="wc-image"),
+                            dcc.Graph(id="pcp")],
+                           gap=0,
+                           direction="horizontal"),
                  
-                 dbc.Stack([dcc.Graph(id="pcp")])
+
              ])
     ])
 
@@ -68,14 +70,14 @@ def get_wordcloud(clicked_author):
         return Image.open("data/wordclouds/default_tfidf_wc.png")
     
     
-@dash.callback(Output("wc-header", "children"),
-               Input("av-plot", "clickData"))  
-def update_wc_header(clicked_author):
-    if clicked_author:
-        author_index = clicked_author["points"][0]["pointIndex"]
-        return f"{get_author_id(author_index)}'s TFIDF word cloud"
-    else:
-        return "Corpus TFIDF word cloud"
+# @dash.callback(Output("wc-header", "children"),
+#                Input("av-plot", "clickData"))  
+# def update_wc_header(clicked_author):
+#     if clicked_author:
+#         author_index = clicked_author["points"][0]["pointIndex"]
+#         return f"{get_author_id(author_index)}'s TFIDF word cloud"
+#     else:
+#         return "Corpus TFIDF word cloud"
     
 @dash.callback(Output("pcp", "figure"),
                Input("av-plot", "clickData"))

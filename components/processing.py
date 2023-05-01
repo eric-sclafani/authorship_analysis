@@ -41,7 +41,7 @@ text_docs_df = pd.read_json("data/documents/pan22_preprocessed.jsonl", lines=Tru
 #~~~Helper functions~~~
 def get_author_id(author_index:int) -> str:
     """Gets the author id given a DataFrame index"""
-    return authors_df.iloc[author_index].author_id if author_index else "None"
+    return authors_df.iloc[author_index].author_id if author_index is not None else "None"
 
 def get_doc_ids_given_author(author_index:int, doc_df:pd.DataFrame) -> List[str]:
     """Retrieves the document IDs for all documents written by a given author"""
