@@ -13,7 +13,7 @@ from .processing import get_author_id, get_doc_ids_given_author
 
 #~~~ Plot functions ~~~   
   
-def author_vector_plot():
+def author_vector_plot(clicked_author=None):
 
     df = pd.DataFrame({"author_id":authors_df["author_id"],
                        "MDS Dim 1":processed_author_vectors[:,0],
@@ -28,6 +28,7 @@ def author_vector_plot():
         marker_color=df["K Cluster"],
         marker=dict(colorscale=["blue", "red", "orange", "green"]),
         hovertemplate="<b>Author</b>: %{text}<extra></extra>",
+        showlegend=False
         
     ))
     fig.update_layout(
@@ -43,6 +44,23 @@ def author_vector_plot():
         yaxis_title=None,
         margin=dict(t=20, l=20, b=150)
         )
+    
+    if clicked_author:
+        x = clicked_author["points"][0]["x"]
+        y = clicked_author["points"][0]["y"]
+        author_index = clicked_author["points"][0]["pointIndex"]
+        fig.add_trace(
+            go.Scatter(
+                x = [x],
+                y = [y],
+                mode="markers",
+                marker_symbol="circle-open",
+                marker_size=16,
+                text=get_author_id(author_index),
+                hoverinfo="skip",
+                showlegend=False
+            )
+            )
     
     return fig
 

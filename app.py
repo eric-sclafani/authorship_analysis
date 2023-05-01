@@ -15,42 +15,47 @@ from components.feature_selector import author_identifying_features_pcp, default
 #~~~App~~~
 app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
 app.title = "Authorship Analysis"
-
 app.layout = html.Div([
     
     html.P(id="dummy"),
     html.Div(className="scatter-div",
              children=[
-                 
-                 dbc.Stack([dcc.Graph(id="av-plot", 
-                                      figure=scatter_plots.author_vector_plot(), 
-                                      config={"displayModeBar": False},
-                                      ), 
-                            
-                            dcc.Graph(id="dv-plot", 
-                                      config={"displayModeBar": False}
-                                      )
-                            ],
-                           gap=0,
-                           direction="horizontal")]
+                 dbc.Row([
+                     dbc.Col([dcc.Graph(id="av-plot", 
+                                        config={"displayModeBar": False})],
+                             width=4,),
+                     dbc.Col([dcc.Graph(id="dv-plot", 
+                                        config={"displayModeBar": False})])]),
+                 dbc.Row([
+                     dbc.Col([html.H4(id="wc-header"),
+                              html.Img(style={"height":"80%", "width":"22%"}, id="wc-image")])])
+                 ]
              ),
-   html.Div(className="wc-div",
-             children=[
-                 dbc.Stack([html.Img(style={"height":"23%", "width":"23%"}, id="wc-image"),
-                            dcc.Graph(id="pcp")],
-                           gap=0,
-                           direction="horizontal"),
+#    html.Div(children=[
+#                  dbc.Stack([html.Img(style={"height":"23%", "width":"23%"}, id="wc-image"),
+#                             dcc.Graph(id="pcp")],
+#                            gap=0,
+#                            direction="horizontal"),
                  
 
-             ])
-    ])
+#              ])
+])
+
 
 
 #~~~Callbacks~~~
 
+@dash.callback(Output("av-plot", "figure"),
+               Input("av-plot", "clickData"))
+def update_clicked_av(clicked_author):
+    if clicked_author:
+        return scatter_plots.author_vector_plot(clicked_author)
+    else:
+        return scatter_plots.author_vector_plot()
+
 @dash.callback(Output("dv-plot", "figure"),
                Input("av-plot", "clickData"))
-def get_av_clicked_data(clicked_author:Dict):
+def update_dv_plot(clicked_author:Dict):
     if clicked_author:
         author_index = clicked_author["points"][0]["pointIndex"]
         return scatter_plots.document_vector_plot(author_index)
@@ -69,24 +74,23 @@ def get_wordcloud(clicked_author):
     else:
         return Image.open("data/wordclouds/default_tfidf_wc.png")
     
-    
-# @dash.callback(Output("wc-header", "children"),
-#                Input("av-plot", "clickData"))  
-# def update_wc_header(clicked_author):
-#     if clicked_author:
-#         author_index = clicked_author["points"][0]["pointIndex"]
-#         return f"{get_author_id(author_index)}'s TFIDF word cloud"
-#     else:
-#         return "Corpus TFIDF word cloud"
-    
-@dash.callback(Output("pcp", "figure"),
-               Input("av-plot", "clickData"))
-def update_pcp(clicked_author):
+@dash.callback(Output("wc-header", "children"),
+               Input("av-plot", "clickData"))  
+def update_wc_header(clicked_author):
     if clicked_author:
         author_index = clicked_author["points"][0]["pointIndex"]
-        return author_identifying_features_pcp(author_index)
+        return f"{get_author_id(author_index)}'s TFIDF word cloud"
     else:
-        return default_pcp_plot()
+        return "Corpus TFIDF word cloud"
+    
+# @dash.callback(Output("pcp", "figure"),
+#                Input("av-plot", "clickData"))
+# def update_pcp(clicked_author):
+#     if clicked_author:
+#         author_index = clicked_author["points"][0]["pointIndex"]
+#         return author_identifying_features_pcp(author_index)
+#     else:
+#         return default_pcp_plot()
     
 
 
