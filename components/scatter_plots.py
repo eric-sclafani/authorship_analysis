@@ -10,6 +10,9 @@ from .processing import authors_df, processed_author_vectors, author_kmeans
 from .processing import docs_df, processed_doc_vectors
 from .processing import get_author_id, get_doc_ids_given_author
 
+#~~~Global~~~
+
+SCATTER_MARGINS = dict(t=35, l=20, b=120)
 
 #~~~ Plot functions ~~~   
   
@@ -32,7 +35,7 @@ def author_vector_plot(clicked_author=None):
         
     ))
     fig.update_layout(
-        title="Author Vectors",
+        title="<b>Author Vectors</b>",
         title_x=0.47,
         autosize=False,
         width=500,
@@ -42,7 +45,7 @@ def author_vector_plot(clicked_author=None):
         hoverlabel = dict(font_size = 16,font_family = "Sitka Small"),
         xaxis_title=None,
         yaxis_title=None,
-        margin=dict(t=20, l=20, b=150)
+        #margin=SCATTER_MARGINS
         )
     
     if clicked_author:
@@ -59,7 +62,7 @@ def author_vector_plot(clicked_author=None):
                 text=get_author_id(author_index),
                 hoverinfo="skip",
                 showlegend=False
-            )
+)
             )
     
     return fig
@@ -91,7 +94,7 @@ def document_vector_plot(clicked_author=None):
         hovertemplate="<b>Author</b>: %{text}<extra></extra>" 
     ))
     fig.update_layout(
-        title="Document Vectors",
+        title="<b>Document Vectors</b>",
         title_x=0.5,
         autosize=False,
         width=950,
@@ -102,6 +105,6 @@ def document_vector_plot(clicked_author=None):
         coloraxis_showscale=False,
         xaxis_title=None,
         yaxis_title=None,
-        margin=dict(l=20, t=20, b=150)
+        #margin=SCATTER_MARGINS
         )
     return fig

@@ -22,7 +22,6 @@ def get_identifying_features(author_id:str, threshold=2.0):
     mean. These features are what separate this author from the average author
     """
     zscores = zscore(author_vectors)
-    print(author_id)
     author_idx = authors_df.loc[authors_df["author_id"] == author_id].index[0]    
     author_zscores = zscores.iloc[author_idx]
     selected_zscores = get_threshold_zscores_idxs(author_zscores, threshold)
@@ -32,7 +31,7 @@ def features_to_show(author_id:str) -> List[str]:
     """Given an author id, returns n amount of this author's most identifying features"""
     features = get_identifying_features(author_id).index.to_list()
     if len(features) > 10:
-        return features[:12]
+        return features[:10]
     return features
 
 def style_pcp_label(label:str) -> str:
@@ -68,11 +67,11 @@ def default_pcp_plot():
         xaxis =  { "visible": False },
         yaxis = { "visible": False },
         annotations = [
-            {"text": "Please select an author from the Author Vector plot",
+            {"text": "Select an author from the Author Vector plot",
              "xref": "paper",
              "yref": "paper",
              "showarrow": False,
-             "font": {"size": 28}
+             "font": {"size": 20}
             }
         ]
     )
