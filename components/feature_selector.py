@@ -67,7 +67,7 @@ def default_pcp_plot():
         xaxis =  { "visible": False },
         yaxis = { "visible": False },
         annotations = [
-            {"text": "Select an author from the Author Vector plot",
+            {"text": "Select an author from the Author Vectors plot",
              "xref": "paper",
              "yref": "paper",
              "showarrow": False,
