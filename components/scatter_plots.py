@@ -12,7 +12,7 @@ from .processing import get_author_id, get_doc_ids_given_author
 
 #~~~Global~~~
 
-SCATTER_MARGINS = dict(t=35, l=20, b=120)
+SCATTER_MARGINS = dict(t=35, l=20)
 
 #~~~ Plot functions ~~~   
   
@@ -45,7 +45,7 @@ def author_vector_plot(clicked_author=None):
         hoverlabel = dict(font_size = 16,font_family = "Sitka Small"),
         xaxis_title=None,
         yaxis_title=None,
-        #margin=SCATTER_MARGINS
+        margin=SCATTER_MARGINS
         )
     
     if clicked_author:
@@ -105,6 +105,6 @@ def document_vector_plot(clicked_author=None):
         coloraxis_showscale=False,
         xaxis_title=None,
         yaxis_title=None,
-        #margin=SCATTER_MARGINS
+        margin=SCATTER_MARGINS
         )
     return fig

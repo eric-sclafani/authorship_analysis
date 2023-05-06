@@ -40,7 +40,7 @@ def style_pcp_label(label:str) -> str:
         return label
     else:    
         feat_type, feat = label.split(":")
-        feat = "<br>" + feat
+        feat = "<br>" + feat if feat_type != "Punctuation" else feat
         return f"{feat_type}:{feat}"
     
     
@@ -61,7 +61,8 @@ def author_identifying_features_pcp(clicked_author=None):
     return fig
 
 
-def default_pcp_plot():
+def default_pcp():
+    """Default PCP """
     fig = go.Figure()
     fig.update_layout(
         xaxis =  { "visible": False },
@@ -72,7 +73,7 @@ def default_pcp_plot():
              "yref": "paper",
              "showarrow": False,
              "font": {"size": 20}
-            }
-        ]
+            }],
+        margin=dict(t=35)
     )
     return fig
