@@ -117,5 +117,5 @@ def update_table(clicked_author):
         
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
 
