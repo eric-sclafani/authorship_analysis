@@ -12,7 +12,7 @@ def get_token_counts(documents:List[str]) -> List[int]:
     return [len(document.split()) for document in documents]
 
 def data_table(clicked_author):
-    
+    """Given an author, displays information about their documents"""
     author_id = get_author_id(clicked_author)
     author_entries = get_author_entries(author_id, type="docs")
     author_docs = author_entries["fullText"].to_list()
