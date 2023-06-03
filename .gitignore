@@ -132,3 +132,4 @@ dmypy.json
 
 # the data is not publicly available, so I cannot commit it.
 *data/documents/*
+testing.ipynb
