@@ -129,7 +129,5 @@ dmypy.json
 .pyre/
 
 # project
-
-# the data is not publicly available, so I cannot commit it.
-*data/documents/*
-testing.ipynb
+src/data/
+src/database/database.ini
