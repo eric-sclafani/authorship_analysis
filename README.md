@@ -21,7 +21,7 @@ The underlying assumption with these vectors is that documents written by the sa
 
 Upon loading/refresh, the user is greeted with the following page:
 
-<img src="assets/images/overview.jpg" alt="image1" width="700" height="400"> 
+<img src="src/assets/images/overview.jpg" alt="image1" width="700" height="400"> 
 
 ## `Author Vectors` 
 
@@ -29,7 +29,7 @@ An `author vector` is just the average of an author's document vectors. In this 
 
 Upon clicking an author in this plot, that author's document vectors will be highlighted in the `Document Vectors` plot and the other documents fade into the background:
 
-<img src="assets/images/scatters.jpg" alt="image1" width="700" height="200">
+<img src="src/assets/images/scatters.jpg" alt="image1" width="700" height="200">
 
 ## `Document Vectors`
 
@@ -48,12 +48,12 @@ Word clouds typically display words based off frequency. One drawback to this is
 The initial wordcloud is over the whole corpus:
 
 
-<img src="assets/images/corpus_wc.jpg" alt="image1" width="300" height="300"> 
+<img src="src/assets/images/corpus_wc.jpg" alt="image1" width="300" height="300"> 
 
 When the user selects an author from the `Author Vectors` plot, it will change to that author's word cloud: 
 
 
-<img src="assets/images/author_wc.jpg" alt="image1" width="300" height="300"> 
+<img src="src/assets/images/author_wc.jpg" alt="image1" width="300" height="300"> 
 
 ## Datatable
 
@@ -67,12 +67,12 @@ When choosing authorship corpora, there's a handful of useful statistics that **
 
 Upon initial load, the `data table` displays the following information about the corpus as a whole:
 
-<img src="assets/images/corpus_datatable.jpg" alt="image1" width="400" height="100"> 
+<img src="src/assets/images/corpus_datatable.jpg" alt="image1" width="400" height="100"> 
 
 After selecting an author from the `Author Vectors` plot, it updates to that author:
 
 
-<img src="assets/images/author_datatable.jpg" alt="image1" width="400" height="100"> 
+<img src="src/assets/images/author_datatable.jpg" alt="image1" width="400" height="100"> 
 
 ## Parallel Coordinates Plot (PCP)
 
@@ -86,7 +86,7 @@ The features chosen to be displayed are chosen based off their **zscore calculat
 When the use selects an author, the PCP updates accordingly:
 
 
-<img src="assets/images/pcp.jpg" alt="image1" width="600" height="300"> 
+<img src="src/assets/images/pcp.jpg" alt="image1" width="600" height="300"> 
 
 # Usage
 
