@@ -1,10 +1,10 @@
 import psycopg2
+from typing import Dict
 from contextlib import contextmanager
 from configparser import ConfigParser
-from sqlalchemy import create_engine
 
 
-def config(filename='database.ini', section='postgresql'):
+def config(filename='database/database.ini', section='postgresql') -> Dict[str,str]:
     """Parses the postgres database.ini"""
     parser = ConfigParser()
     parser.read(filename)
