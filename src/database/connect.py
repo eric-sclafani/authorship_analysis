@@ -1,5 +1,7 @@
 import psycopg2
+from contextlib import contextmanager
 from configparser import ConfigParser
+from sqlalchemy import create_engine
 
 
 def config(filename='database.ini', section='postgresql'):
@@ -13,28 +15,12 @@ def config(filename='database.ini', section='postgresql'):
     else:
         raise Exception(f"Section {section} not found in the {filename} file")
     
-def connect():
-    """Connect to the PostgreSQL database server"""
-    conn = None
+@contextmanager
+def postgres_connection():
+    """Establishes a connection to a postgres database"""
+    params = config()
+    connection = psycopg2.connect(**params)
     try:
-        params = config()
-        conn = psycopg2.connect(**params)
-        cur = conn.cursor()
-        
-        cur.execute("""SELECT version()""")
-
-        db_version = cur.fetchone()
-        print(db_version)
-       
-        cur.close()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+        yield connection
     finally:
-        if conn is not None:
-            conn.close()
-
-
-if __name__ == '__main__':
-    connect()
-    
-    
+        connection.close()
