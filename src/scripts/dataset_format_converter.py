@@ -11,3 +11,12 @@ def load_csv(path:str) -> pd.DataFrame:
 def load_txt(path:str) -> pd.DataFrame:
     pass
 
+def main():
+    
+    blogs_raw = load_csv("../data/blogs/blogtext.csv")
+    
+
+
+
+if __name__ == "__main__":
+    main()

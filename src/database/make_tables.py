@@ -23,9 +23,11 @@ def load_document_vectors(path:str) -> pd.DataFrame:
     return pd.read_csv(path, index_col="documentID")
 
 def get_author_ids(doc_df:pd.DataFrame) -> np.ndarray:
+    """Retrieves all author ids"""
     return doc_df.authorIDs.unique()
 
 def create_author_vector(author_id:str, doc_df:pd.DataFrame) -> pd.Series:
+    """Averages an author's document vectors to get an author vector"""
     author_document_vectors = doc_df.loc[doc_df['authorIDs'] == author_id]
     return author_document_vectors.mean(axis=0, numeric_only=True)
 
@@ -39,12 +41,11 @@ def create_author_vector_df(doc_df:pd.DataFrame) -> pd.DataFrame:
     return av_df
 
 def create_feature_tables(df:pd.DataFrame) -> List[FeatureTable]:
-    """Given a dataframe, create a new dataframe (wrapped in a FeatureTable instance)for each high level feature"""
+    """Given a dataframe, create a new dataframe (wrapped in a FeatureTable instance) for each high level feature"""
     HIGH_LEVEL_FEATURES = ["pos_unigrams", 
                            "pos_bigrams", 
                            "letters", 
                            "emojis", 
-                           "mixed_bigrams", 
                            "morph_tags", 
                            "dep_labels",
                            "punctuation", 
@@ -52,8 +53,6 @@ def create_feature_tables(df:pd.DataFrame) -> List[FeatureTable]:
     tables = []
     for feat_name in HIGH_LEVEL_FEATURES:
         data = df.filter(regex=f"{feat_name}")
-        if feat_name == "mixed_bigrams":
-            data = data.iloc[:, 0:601]
         tables.append(FeatureTable(feat_name, data))
     return tables
 

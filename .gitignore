@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # project
-src/data/
+data/
 src/database/database.ini
