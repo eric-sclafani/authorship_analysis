@@ -8,8 +8,6 @@ import argparse
 from sqlalchemy import create_engine
 from dataclasses import dataclass
 from typing import List
-from loguru import logger
-logger.add("error.log", level="ERROR")
 
 # project imports
 from connect import config
@@ -59,10 +57,8 @@ def create_feature_tables(df:pd.DataFrame) -> List[FeatureTable]:
 def create_postgres_tables(tables, dataset_name:str, level:str, engine) -> None:
     """Creates document and author level tables for all high level features"""
     for table in tables:
-        try:
-            table.data.to_sql(f"{dataset_name}_{level}_{table.feature}", engine, if_exists="replace")
-        except Exception as e:
-            logger.exception(e)
+        table.data.to_sql(f"{dataset_name}_{level}_{table.feature}", engine, if_exists="replace")
+    
 
 def main():
     

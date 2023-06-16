@@ -131,3 +131,4 @@ dmypy.json
 # project
 data/
 src/database/database.ini
+src/testing.ipynb
