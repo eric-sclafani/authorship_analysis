@@ -29,5 +29,6 @@ def feature_checklist() -> dcc.Checklist:
     return dcc.Checklist(
         options=features,
         value=[feat["value"] for feat in features],
-        labelStyle={"display": "flex", "align-items": "center"}
+        labelStyle={"display": "flex", "align-items": "center"},
+        inputStyle={"margin-right": "10px"}
     )

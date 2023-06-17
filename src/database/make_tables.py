@@ -18,7 +18,8 @@ class FeatureTable:
     data:pd.DataFrame
 
 def load_document_vectors(path:str) -> pd.DataFrame:
-    return pd.read_csv(path, index_col="documentID")
+    data = pd.read_csv(path, index_col="documentID")
+    return data.rename({"authorIDs":"author_id"})
 
 def get_author_ids(doc_df:pd.DataFrame) -> np.ndarray:
     """Retrieves all author ids"""
@@ -36,7 +37,7 @@ def create_author_vector_df(doc_df:pd.DataFrame) -> pd.DataFrame:
     for author_id in author_ids:
         author_ids_to_avs[author_id] = create_author_vector(author_id, doc_df)    
     av_df = pd.DataFrame(author_ids_to_avs).T
-    return av_df
+    return av_df.rename({"authorIDs":"author_id"})
 
 def create_feature_tables(df:pd.DataFrame) -> List[FeatureTable]:
     """Given a dataframe, create a new dataframe (wrapped in a FeatureTable instance) for each high level feature"""
@@ -54,10 +55,14 @@ def create_feature_tables(df:pd.DataFrame) -> List[FeatureTable]:
         tables.append(FeatureTable(feat_name, data))
     return tables
 
-def create_postgres_tables(tables, dataset_name:str, level:str, engine) -> None:
+def create_postgres_tables(tables, dataset_name:str, level:str, index_label:str, engine) -> None:
     """Creates document and author level tables for all high level features"""
     for table in tables:
-        table.data.to_sql(f"{dataset_name}_{level}_{table.feature}", engine, if_exists="replace")
+        table.data.to_sql(f"{dataset_name}_{level}_{table.feature}", 
+                          engine, 
+                          if_exists="replace",
+                          index=True, 
+                          index_label=index_label)
     
 
 def main():
@@ -82,8 +87,8 @@ def main():
     document_tables = create_feature_tables(document_vectors)
     author_tables = create_feature_tables(author_vectors)
     
-    create_postgres_tables(document_tables, args.dataset_name, "documents", engine)
-    create_postgres_tables(author_tables, args.dataset_name, "authors", engine)
+    create_postgres_tables(document_tables, args.dataset_name, "documents", "document_id", engine)
+    create_postgres_tables(author_tables, args.dataset_name, "authors", "author_id", engine)
     
 if __name__ == "__main__":
     main()
