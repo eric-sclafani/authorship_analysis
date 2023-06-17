@@ -2,48 +2,30 @@
 from dash.dependencies import Input, Output
 from dash import html, Dash, dcc, dash_table
 import dash_bootstrap_components as dbc
+import argparse
+import pandas as pd
 
-# project imports
-from components import scatter_plots
-from components.get_wordcloud import retrieve_wc_given_author, Image
-from components.processing import get_author_id
-from components.table import data_table, default_table
-
+# # project imports
+# from components import scatter_plots
+# from components.get_wordcloud import retrieve_wc_given_author, Image
+# from components.processing import get_author_id
+# from components.table import data_table, default_table
+from components.checklist import feature_checklist
+from database.connect import select
 #~~~Globals~~~
-DISPLAY_CFG = {"displayModeBar": False}
+
 
 #~~~App~~~
 app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
 app.title = "Authorship Analysis"
 app.layout = html.Div([
     
-        dbc.Row([
-            dbc.Col([dcc.Graph(id="av-plot", config=DISPLAY_CFG)], width=4),
-            dbc.Col([dcc.Graph(id="dv-plot", config=DISPLAY_CFG)])]),
-             
-        dbc.Row([
-            dbc.Col([html.H4(id="wc-header"),
-                     html.Img(style={"height":"50%", "width":"54%", 'margin': '0px 0px 10px 0px'}, id="wc-image"),
-                     dash_table.DataTable(id="table", 
-                                          fill_width=False,
-                                          style_header={'backgroundColor':'#305D91',
-                                                        'padding':'10px',
-                                                        'color':'#FFFFFF'},
-                                          style_cell={'textAlign':'center',
-                                                      'width': 105,
-                                                      'font_size': '12px',
-                                                      'whiteSpace':'normal',
-                                                      'height':'auto'},
-                                          )], 
-                    style={'padding': '0px 0px 50px 0px'}),
-            
-             
-
-
-                 ]
-             )
-        ]
-                      )
+    dbc.Row([
+        dbc.Col([feature_checklist()], 
+                className="checklist"),
+        ], className="row1"),
+    
+    ], className="main-div")
 
 
 
@@ -97,13 +79,24 @@ app.layout = html.Div([
     
   
     
+
+
+def main():
+    
+    args = argparse.ArgumentParser() 
+    args.add_argument("-r",
+                      "--rerun_dimensionality_reduction",
+                      help="Option to re-run the dimensionality reduction algorithms on the database vectors",
+                      action="store_false")
+    
+    # data = select("""--sql 
+    #               SELECT * FROM pan2022_authors_dep_labels;
+    #               """)
     
 
-    
-
+    app.run(debug=True)
 
         
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
+    main()

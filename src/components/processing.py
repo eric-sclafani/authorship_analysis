@@ -6,8 +6,13 @@ from sklearn.cluster import KMeans
 from typing import List
 import pandas as pd
 import warnings
+import joblib
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
+
+
+def default_vectors_dim_reduced(df:pd.DataFrame) -> pd.DataFrame:
+    pass
 
 
 #~~~Author level data~~~
@@ -38,18 +43,18 @@ processed_doc_vectors = doc_pipeline.fit_transform(doc_vectors)
 text_docs_df = pd.read_json("data/documents/pan22_preprocessed.jsonl", lines=True)
 
 
-#~~~Helper functions~~~
-def get_author_id(author_index:int) -> str:
-    """Gets the author id given a DataFrame index"""
-    return authors_df.iloc[author_index].author_id if author_index is not None else "None"
+# #~~~Helper functions~~~
+# def get_author_id(author_index:int) -> str:
+#     """Gets the author id given a DataFrame index"""
+#     return authors_df.iloc[author_index].author_id if author_index is not None else "None"
 
-def get_doc_ids_given_author(author_index:int, doc_df:pd.DataFrame) -> List[str]:
-    """Retrieves the document IDs for all documents written by a given author"""
-    return doc_df.loc[doc_df['author_id'] == authors_df.iloc[author_index].author_id]["doc_id"].to_list()
+# def get_doc_ids_given_author(author_index:int, doc_df:pd.DataFrame) -> List[str]:
+#     """Retrieves the document IDs for all documents written by a given author"""
+#     return doc_df.loc[doc_df['author_id'] == authors_df.iloc[author_index].author_id]["doc_id"].to_list()
 
-def get_author_entries(author_id:str, type="vectors") -> pd.DataFrame:
-    """Returns document vectors or text docs from a given author"""
-    if type == "vectors":
-        return docs_df.loc[docs_df["author_id"] == author_id]
-    elif type == "docs":
-        return text_docs_df.loc[text_docs_df["authorIDs"] == author_id]
+# def get_author_entries(author_id:str, type="vectors") -> pd.DataFrame:
+#     """Returns document vectors or text docs from a given author"""
+#     if type == "vectors":
+#         return docs_df.loc[docs_df["author_id"] == author_id]
+#     elif type == "docs":
+#         return text_docs_df.loc[text_docs_df["authorIDs"] == author_id]

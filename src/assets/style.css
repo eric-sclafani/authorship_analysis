@@ -3,3 +3,12 @@ body{
     background-color: white;
     margin: 0;
 }
+
+.main-div{
+    display: flex;
+}
+
+.feature-checklist-item{
+    font-size:20; 
+    color:rgb(23,81,135);
+}
