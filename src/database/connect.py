@@ -24,10 +24,3 @@ def postgres_connection():
         yield connection
     finally:
         connection.close()
-        
-def select(query:str):
-    """Executes a given SELECT query"""
-    with postgres_connection() as connection:
-        cursor = connection.cursor()
-        cursor.execute(query)
-        return cursor.fetchall()

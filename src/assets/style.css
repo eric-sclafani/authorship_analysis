@@ -1,7 +1,7 @@
 
 body{
     background-color: white;
-    margin: 0;
+    display: flex;
 }
 
 .main-div {
@@ -9,10 +9,21 @@ body{
 }
 
 .checklist {
-    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    margin:20px 0px 0px 20px;
+    border-style: solid;
 }
 
-.feature-checklist-item {
+.checklist-item {
     font-size:20; 
     color:rgb(23,81,135);
+}
+
+.checklist-button {
+    margin: 10px 0px 10px 0px;
+    width: 100px;
+    align-self: center;
+
+    
 }

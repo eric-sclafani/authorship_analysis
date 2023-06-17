@@ -1,18 +1,12 @@
 
-from dash.dependencies import Input, Output
+import dash
+from dash.dependencies import Input, Output, State
 from dash import html, Dash, dcc, dash_table
 import dash_bootstrap_components as dbc
 import argparse
 import pandas as pd
 
-# # project imports
-# from components import scatter_plots
-# from components.get_wordcloud import retrieve_wc_given_author, Image
-# from components.processing import get_author_id
-# from components.table import data_table, default_table
-from components.checklist import feature_checklist
-from database.connect import select
-#~~~Globals~~~
+from components import checklist
 
 
 #~~~App~~~
@@ -20,10 +14,7 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
 app.title = "Authorship Analysis"
 app.layout = html.Div([
     
-    dbc.Row([
-        dbc.Col([feature_checklist()], 
-                className="checklist"),
-        ], className="row1"),
+    dbc.Row([checklist, dbc.Col(html.Div(id="test-div"))], className="row1"),
     
     ], className="main-div")
 
@@ -76,6 +67,14 @@ app.layout = html.Div([
 #         return data_table(author_index)
 #     else:
 #         return default_table()
+
+
+@app.callback(Output("test-div", "children"),
+               [Input("checklist-button", "n_clicks")],
+               [State("checklist", "value")])
+def update_author_vector_plot(n_clicks, selected_items):
+    if n_clicks:
+        return selected_items
     
   
     
@@ -89,9 +88,7 @@ def main():
                       help="Option to re-run the dimensionality reduction algorithms on the database vectors",
                       action="store_false")
     
-    # data = select("""--sql 
-    #               SELECT * FROM pan2022_authors_dep_labels;
-    #               """)
+
     
 
     app.run(debug=True)
