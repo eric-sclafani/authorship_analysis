@@ -14,11 +14,15 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
 app.title = "Authorship Analysis"
 app.layout = html.Div([
     
-    dbc.Row([comp.feature_checklist]),
-    dbc.Row([comp.dataset_dropdown])
-    
-    
-    ], className="main-div")
+    html.Div([
+        comp.config_header,
+        comp.checklist_subheader,
+        comp.feature_checklist,
+        comp.radio_subheader,
+        comp.config_radio,
+        comp.config_button
+        ], className="config"),
+    ],className="main-div")
 
 
 
@@ -72,8 +76,8 @@ app.layout = html.Div([
 
 
 # @app.callback(Output("test-div", "children"),
-#                Input("checklist-button", "n_clicks"),
-#                State("checklist", "value"))
+#                Input("config-button", "n_clicks"),
+#                State("feature-checklist", "value"))
 # def update_author_vector_plot(_, selected_items) -> List[str]:
 #     return selected_items
     

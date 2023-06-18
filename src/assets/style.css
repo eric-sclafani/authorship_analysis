@@ -4,31 +4,36 @@ body{
     display: flex;
 }
 
+
+h1 {
+    font-size: 20px;
+}
+
+h2 {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
 .main-div {
     display: flex;
     flex-direction: column;
 }
 
-.checklist {
+.config {
     display: flex;
     flex-direction: column;
-    margin:20px 0px 0px 20px;
-    border-style:groove;
+    margin: 10px;
 }
 
-.checklist-item {
+.dataset-radio,
+.feature-checklist-item {
     font-size:20; 
     color:rgb(23,81,135);
 }
 
-.checklist-button {
+.config-button {
     margin: 10px 0px 10px 0px;
-    width: 100px;
-    align-self: center;
+
 }
 
-.dataset-dropdown {
-    font-size: 13px;
-    width: 210px;
-    margin: 5px 0px 0px 5px;
-}
+

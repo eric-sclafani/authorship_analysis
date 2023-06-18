@@ -1,16 +1,14 @@
-import dash_bootstrap_components as dbc
+from dash import html
 
-from .checklist import make_feature_checklist, make_checklist_button
-from .dropdown import make_dataset_dropdown
+from .checklist import make_feature_checklist
+from .radiobutton import make_dataset_radio
+from .button import configuration_button
 
+config_header = html.H1("Configuration")
+checklist_subheader = html.H2("Select high-level features")
+feature_checklist = make_feature_checklist()
 
-feature_checklist = dbc.Col(
-    [make_feature_checklist(), 
-     make_checklist_button()], 
-    className="checklist", 
-    )
+radio_subheader = html.H2("Select a dataset")
+config_radio = make_dataset_radio()
 
-dataset_dropdown = dbc.Col(
-    [make_dataset_dropdown()],
-    className="dataset-dropdown"
-)
+config_button = configuration_button()

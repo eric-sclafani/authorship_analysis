@@ -18,7 +18,7 @@ def make_checklist_items() -> List[Dict]:
     features = []
     for clean_name, raw_name in FEATURE_NAMES.items():
         features.append({
-            "label": html.Div([clean_name], className="checklist-item"),
+            "label": html.Div([clean_name], className="feature-checklist-item"),
             "value": raw_name
         })
     return features
@@ -26,17 +26,11 @@ def make_checklist_items() -> List[Dict]:
 def make_feature_checklist() -> dcc.Checklist:
     features = make_checklist_items()
     return dcc.Checklist(
-        id="checklist",
+        id="feature-checklist",
+        className="feature-checklist",
         options=features,
         value=[feat["value"] for feat in features],
         labelStyle={"display": "flex", "align-items": "center"},
         inputStyle={"margin-right": "10px"}
-    )
-    
-def make_checklist_button() -> dbc.Button:
-    return dbc.Button(
-        "Submit",
-        id="checklist-button",
-        className="checklist-button",
     )
     
