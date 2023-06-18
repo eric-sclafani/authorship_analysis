@@ -1,10 +1,16 @@
 import dash_bootstrap_components as dbc
 
+from .checklist import make_feature_checklist, make_checklist_button
+from .dropdown import make_dataset_dropdown
 
-from .checklist import feature_checklist, checklist_button
 
-
-checklist = dbc.Col(
-    [feature_checklist(), checklist_button()], 
+feature_checklist = dbc.Col(
+    [make_feature_checklist(), 
+     make_checklist_button()], 
     className="checklist", 
     )
+
+dataset_dropdown = dbc.Col(
+    [make_dataset_dropdown()],
+    className="dataset-dropdown"
+)

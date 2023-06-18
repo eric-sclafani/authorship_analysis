@@ -4,9 +4,9 @@ from dash.dependencies import Input, Output, State
 from dash import html, Dash, dcc, dash_table
 import dash_bootstrap_components as dbc
 import argparse
-import pandas as pd
+from typing import List
 
-from components import checklist
+import components as comp
 
 
 #~~~App~~~
@@ -14,7 +14,9 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
 app.title = "Authorship Analysis"
 app.layout = html.Div([
     
-    dbc.Row([checklist, dbc.Col(html.Div(id="test-div"))], className="row1"),
+    dbc.Row([comp.feature_checklist], class_name="row1"),
+    dbc.Row([comp.dataset_dropdown])
+    
     
     ], className="main-div")
 
@@ -69,12 +71,11 @@ app.layout = html.Div([
 #         return default_table()
 
 
-@app.callback(Output("test-div", "children"),
-               [Input("checklist-button", "n_clicks")],
-               [State("checklist", "value")])
-def update_author_vector_plot(n_clicks, selected_items):
-    if n_clicks:
-        return selected_items
+# @app.callback(Output("test-div", "children"),
+#                Input("checklist-button", "n_clicks"),
+#                State("checklist", "value"))
+# def update_author_vector_plot(_, selected_items) -> List[str]:
+#     return selected_items
     
   
     

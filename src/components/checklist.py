@@ -1,6 +1,7 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
-from typing import List
+from typing import List, Dict
+
 
 FEATURE_NAMES = {
     "POS unigrams" : "pos_unigrams", 
@@ -13,8 +14,7 @@ FEATURE_NAMES = {
     "Morphology tags" : "morph_tags"
 }
 
-def make_checklist_items():
-    """Creates the feature checklist items"""
+def make_checklist_items() -> List[Dict]:
     features = []
     for clean_name, raw_name in FEATURE_NAMES.items():
         features.append({
@@ -23,8 +23,7 @@ def make_checklist_items():
         })
     return features
 
-def feature_checklist() -> dcc.Checklist:
-    """Creates the checklist dash component"""
+def make_feature_checklist() -> dcc.Checklist:
     features = make_checklist_items()
     return dcc.Checklist(
         id="checklist",
@@ -34,7 +33,7 @@ def feature_checklist() -> dcc.Checklist:
         inputStyle={"margin-right": "10px"}
     )
     
-def checklist_button() -> dbc.Button:
+def make_checklist_button() -> dbc.Button:
     return dbc.Button(
         "Submit",
         id="checklist-button",
