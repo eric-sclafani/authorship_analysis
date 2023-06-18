@@ -22,6 +22,7 @@ def make_dataset_dropdown():
     options = make_dropdown_options()
     return dcc.Dropdown(
         options=options,
-        value="PAN22 Authorship Verification",
+        value=["PAN22 Authorship Verification"],
         clearable=False,
+        className="dataset-dropdown"
     )

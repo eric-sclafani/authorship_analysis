@@ -14,7 +14,7 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
 app.title = "Authorship Analysis"
 app.layout = html.Div([
     
-    dbc.Row([comp.feature_checklist], class_name="row1"),
+    dbc.Row([comp.feature_checklist]),
     dbc.Row([comp.dataset_dropdown])
     
     

@@ -13,7 +13,7 @@ body{
     display: flex;
     flex-direction: column;
     margin:20px 0px 0px 20px;
-    border-style: solid;
+    border-style:groove;
 }
 
 .checklist-item {
@@ -27,3 +27,8 @@ body{
     align-self: center;
 }
 
+.dataset-dropdown {
+    font-size: 13px;
+    width: 210px;
+    margin: 5px 0px 0px 5px;
+}
