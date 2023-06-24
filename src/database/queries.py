@@ -11,8 +11,15 @@ def select(query:str):
         cursor.execute(query)
         return cursor.fetchall()
     
-def select_checklist_features(dataset_name:str,
-                              level:str, 
-                              features:List[str]
+def select_checklist_features(features:List[str],
+                              dataset_name:str
                               ):
-    pass
+    levels = ["authors", "documents"]
+    return select(f"""--sql
+                  SELECT * FROM {dataset_name}_documents_dep_labels
+                  LIMIT 5;""")
+    
+    
+   
+   
+print(select_checklist_features(["pos_unigrams", "pos_bigrams"], "pan2022")) 

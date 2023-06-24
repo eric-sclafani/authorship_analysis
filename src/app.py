@@ -13,16 +13,27 @@ import components as comp
 app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
 app.title = "Authorship Analysis"
 app.layout = html.Div([
-    
+    html.H1(["Header"], className="header"),
     html.Div([
-        comp.config_header,
-        comp.checklist_subheader,
-        comp.feature_checklist,
-        comp.radio_subheader,
-        comp.config_radio,
-        comp.config_button
-        ], className="config"),
-    ],className="main-div")
+        
+        html.Div([
+            comp.config_header,
+            comp.checklist_subheader,
+            comp.feature_checklist,
+            comp.radio_subheader,
+            comp.config_radio,
+            comp.config_button
+            ], className="config"),
+        
+        html.Div([
+            dcc.Graph(),
+            dcc.Graph()
+            ], className="scatter-plots"),
+        
+        html.Div(id="test-div")
+        
+        ], className="middle"),
+    ], className="main-div")
 
 
 
@@ -75,11 +86,13 @@ app.layout = html.Div([
 #         return default_table()
 
 
-# @app.callback(Output("test-div", "children"),
-#                Input("config-button", "n_clicks"),
-#                State("feature-checklist", "value"))
-# def update_author_vector_plot(_, selected_items) -> List[str]:
-#     return selected_items
+@app.callback(Output("test-div", "children"),
+               Input("config-button", "n_clicks"),
+               State("feature-checklist", "value"),
+               State("dataset-radio", "value"))
+def update_author_vector_plot(_, selected_features, selected_dataset):
+    print(selected_features, selected_dataset)
+    
     
   
     

@@ -22,6 +22,7 @@ def make_dataset_radio():
         options=options,
         value="pan2022",
         className="dataset-radio",
+        id="dataset-radio",
         inputStyle={"margin-right": "10px"}
 
     )
