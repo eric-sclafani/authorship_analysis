@@ -7,6 +7,7 @@ import argparse
 from typing import List
 
 import components as comp
+from database import queries
 
 
 #~~~App~~~
@@ -15,7 +16,6 @@ app.title = "Authorship Analysis"
 app.layout = html.Div([
     html.H1(["Header"], className="header"),
     html.Div([
-        
         html.Div([
             comp.config_header,
             comp.checklist_subheader,
@@ -91,8 +91,8 @@ app.layout = html.Div([
                State("feature-checklist", "value"),
                State("dataset-radio", "value"))
 def update_author_vector_plot(_, selected_features, selected_dataset):
-    print(selected_features, selected_dataset)
     
+    document_df, author_df = queries.select_features(selected_features, selected_dataset)
     
   
     
