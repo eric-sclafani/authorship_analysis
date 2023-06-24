@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from typing import List
 
 # project imports
-from connect import config
+from connect import postgres_connection
 
 @dataclass
 class FeatureTable:
@@ -81,8 +81,6 @@ def main():
                         help="Path to a dataset's generated document vectors")
     
     args = parser.parse_args()
-    cfg = config()
-    engine = create_engine(f'postgresql://{cfg["user"]}:{cfg["password"]}@{cfg["host"]}:{cfg["port"]}/{cfg["database"]}')
     
     document_vectors = load_document_vectors(args.document_vectors_path).round(6)
     author_vectors = create_author_vector_df(document_vectors).round(6)
@@ -90,20 +88,19 @@ def main():
     document_tables = create_feature_tables(document_vectors, "documents")
     author_tables = create_feature_tables(author_vectors, "authors")
     
-    
-
-    
+    import ipdb;ipdb.set_trace()
+        
     create_postgres_tables(document_tables, 
                            args.dataset_name, 
                            "documents", 
                            "document_id",
-                           engine)
+                           postgres_connection)
     
     create_postgres_tables(author_tables, 
                            args.dataset_name, 
                            "authors",
                            "author_id",
-                           engine)
+                           postgres_connection)
     
 if __name__ == "__main__":
     main()

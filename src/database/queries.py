@@ -4,22 +4,30 @@ from typing import List
 from connect import postgres_connection
 
 
-def select(query:str):
-    """Executes a given SELECT query"""
-    with postgres_connection() as connection:
-        cursor = connection.cursor()
-        cursor.execute(query)
-        return cursor.fetchall()
+def retrieve_all_columns(dataset_name:str, 
+                         level:str, 
+                         feature:str) -> pd.DataFrame:
+    """Given the name, level, and feature of a table, retrieve all columns from that table"""
+    query = f"SELECT * FROM {dataset_name}_{level}_{feature};"
+    with postgres_connection.connect() as connection:
+        index = "document_id" if level == "documents" else "author_id"
+        return pd.read_sql_query(query, connection, index_col=index)
     
-def select_checklist_features(features:List[str],
-                              dataset_name:str
-                              ):
-    levels = ["authors", "documents"]
-    return select(f"""--sql
-                  SELECT * FROM {dataset_name}_documents_dep_labels
-                  LIMIT 5;""")
+def select_features_from_checklist(features:List[str], dataset_name:str
+                                   ):
+    docs_df = pd.DataFrame()
+    author_df = pd.DataFrame()
+    
+    for feature in features:
+        docs = retrieve_all_columns(dataset_name, "documents", feature)
+        authors = retrieve_all_columns(dataset_name, "authors", feature)
+        
+        import ipdb;ipdb.set_trace()
+                
+    
+    
     
     
    
    
-print(select_checklist_features(["pos_unigrams", "pos_bigrams"], "pan2022")) 
+select_features_from_checklist(["pos_unigrams", "pos_bigrams"], "pan2022")

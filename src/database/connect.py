@@ -1,6 +1,5 @@
-import psycopg2
+from sqlalchemy import create_engine
 from typing import Dict
-from contextlib import contextmanager
 from configparser import ConfigParser
 
 
@@ -14,13 +13,16 @@ def config(filename='database/database.ini', section='postgresql') -> Dict[str,s
         return {param[0]:param[1] for param in params}
     else:
         raise Exception(f"Section {section} not found in the {filename} file")
-    
-@contextmanager
-def postgres_connection():
-    """Establishes a connection to a postgres database"""
-    params = config()
-    connection = psycopg2.connect(**params)
-    try:
-        yield connection
-    finally:
-        connection.close()
+        
+params = config()
+postgres_connection = create_engine(
+"{dialect}+{driver}://{username}:{password}@{host}:{port}/{database}".format(
+    dialect="postgresql",
+    driver="psycopg2",
+    username=params["user"],
+    password=params["password"],
+    host=params["host"],
+    port=params["port"],
+    database=params["database"]
+    )
+)
