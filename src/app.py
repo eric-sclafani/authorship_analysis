@@ -1,11 +1,9 @@
+#!/usr/bin/env python3
 
 import dash
 from dash.dependencies import Input, Output, State
-from dash import html, Dash, dcc, dash_table
+from dash import html, Dash, dcc
 import dash_bootstrap_components as dbc
-import argparse
-from typing import List
-
 import components as comp
 from database import queries
 
@@ -99,19 +97,8 @@ def update_author_vector_plot(_, selected_features, selected_dataset):
 
 
 def main():
-    
-    args = argparse.ArgumentParser() 
-    args.add_argument("-r",
-                      "--rerun_dimensionality_reduction",
-                      help="Option to re-run the dimensionality reduction algorithms on the database vectors",
-                      action="store_false")
-    
-
-    
-
     app.run(debug=True)
 
-        
-
+    
 if __name__ == "__main__":
     main()

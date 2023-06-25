@@ -1,18 +1,51 @@
 from sklearn.manifold import MDS, TSNE
-from sklearn.decomposition import PCA
+from sklearn.decomposition import PCA, TruncatedSVD
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.cluster import KMeans
 from typing import List
 import pandas as pd
+import numpy as np
 import warnings
-import joblib
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 
+SEED = 42
 
-def default_vectors_dim_reduced(df:pd.DataFrame) -> pd.DataFrame:
-    pass
+def has_high_dimensions(df:pd.DataFrame, threshhold=100) -> bool:
+    """Determines if a df crosses over a dimensionality threshold"""
+    return df.shape[1] > threshhold
+
+def apply_dv_pipeline(df:pd.DataFrame) -> np.ndarray:
+    """
+    Applies dimensionality reduction to document vectors. If the df dimensionality is higher, also use TruncatedSVD 
+    (as instructed by the TSNE documentation)
+    """
+    if has_high_dimensions(df):
+        doc_pipeline = Pipeline([
+            ("scaler", StandardScaler()),
+            ("TruncatedSVD", TruncatedSVD(n=50, random_state=SEED)),
+            ("TSNE", TSNE(random_state=SEED))
+        ])
+    else:
+        doc_pipeline = Pipeline([
+            ("scaler", StandardScaler()),
+            ("TSNE", TSNE(random_state=SEED))
+        ])
+    return doc_pipeline.fit_transform(df.select_dtypes(include=np.number))
+    
+def apply_av_pipeline(df:pd.DataFrame) -> np.ndarray:
+    """"""
+    author_pipeline = Pipeline([
+        ("scaler", StandardScaler()),
+        ("MDS", MDS(random_state=SEED))
+    ])
+    return author_pipeline.fit_transform(df.select_dtypes(include=np.number))
+
+def apply_av_kmeans(dim_reduced_df:pd.DataFrame, k=6) -> KMeans:
+    """"""
+    kmeans = KMeans(n_clusters=k, random_state=SEED)
+    return kmeans.fit(dim_reduced_df)
 
 
 #~~~Author level data~~~
