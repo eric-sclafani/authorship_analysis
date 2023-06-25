@@ -4,8 +4,11 @@ import dash
 from dash.dependencies import Input, Output, State
 from dash import html, Dash, dcc
 import dash_bootstrap_components as dbc
+
+# project imports
 import components as comp
 from database import queries
+from processing import processing
 
 
 #~~~App~~~
@@ -15,20 +18,18 @@ app.layout = html.Div([
     html.H1(["Header"], className="header"),
     html.Div([
         html.Div([
-            comp.config_header,
-            comp.checklist_subheader,
-            comp.feature_checklist,
-            comp.radio_subheader,
-            comp.config_radio,
-            comp.config_button
+            html.H1("Configuration"),
+            html.H2("Select high-level features"),
+            comp.make_feature_checklist(),
+            html.H2("Select a dataset"),
+            comp.make_dataset_radio(),
+            comp.configuration_button()
             ], className="config"),
         
         html.Div([
-            dcc.Graph(),
-            dcc.Graph()
+            dcc.Graph(id="av-plot", className="av-plot"),
+            dcc.Graph(id="dv-plot", className="dv-plot")
             ], className="scatter-plots"),
-        
-        html.Div(id="test-div")
         
         ], className="middle"),
     ], className="main-div")
@@ -37,60 +38,17 @@ app.layout = html.Div([
 
 #~~~Callbacks~~~
 
-# @dash.callback(Output("av-plot", "figure"),
-#                Input("av-plot", "clickData"))
-# def update_clicked_av(clicked_author):
-#     if clicked_author:
-#         return scatter_plots.author_vector_plot(clicked_author)
-#     else:
-#         return scatter_plots.author_vector_plot()
-
-# @dash.callback(Output("dv-plot", "figure"),
-#                Input("av-plot", "clickData"))
-# def update_dv_plot(clicked_author:Dict):
-#     if clicked_author:
-#         author_index = clicked_author["points"][0]["pointIndex"]
-#         return scatter_plots.document_vector_plot(author_index)
-#     else:
-#         return scatter_plots.document_vector_plot()
-
-# @dash.callback(Output("wc-image", "src"),
-#                Input("av-plot", "clickData"))   
-# def get_wordcloud(clicked_author):
-    
-#     if clicked_author:
-#         author_index = clicked_author["points"][0]["pointIndex"]
-#         wc = retrieve_wc_given_author(author_index)
-#         return wc
-#     else:
-#         return Image.open("data/wordclouds/default_tfidf_wc.png")
-    
-# @dash.callback(Output("wc-header", "children"),
-#                Input("av-plot", "clickData"))  
-# def update_wc_header(clicked_author):
-#     if clicked_author:
-#         author_index = clicked_author["points"][0]["pointIndex"]
-#         return f"{get_author_id(author_index)}'s TFIDF word cloud"
-#     else:
-#         return "Corpus TFIDF word cloud"
-    
-# @dash.callback(Output("table", "data"),
-#                Input("av-plot", "clickData"))
-# def update_table(clicked_author):
-#     if clicked_author:
-#         author_index = clicked_author["points"][0]["pointIndex"]
-#         return data_table(author_index)
-#     else:
-#         return default_table()
-
-
-@app.callback(Output("test-div", "children"),
-               Input("config-button", "n_clicks"),
-               State("feature-checklist", "value"),
-               State("dataset-radio", "value"))
+@app.callback(Output("av-plot", "figure"),
+              Output("dv-plot", "figure"),
+              Input("config-button", "n_clicks"),
+              State("feature-checklist", "value"),
+              State("dataset-radio", "value"))
 def update_author_vector_plot(_, selected_features, selected_dataset):
     
-    document_df, author_df = queries.select_features(selected_features, selected_dataset)
+    doc_df, author_df = queries.select_features(selected_features, selected_dataset)
+    reduced_doc_df = processing.apply_dv_pipeline(doc_df)
+    reduced_author_df = processing.apply_av_pipeline(author_df)
+    return comp.document_vector_plot(reduced_doc_df), comp.author_vector_plot(reduced_author_df)
     
   
     
