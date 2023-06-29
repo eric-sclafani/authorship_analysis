@@ -38,8 +38,8 @@ app.layout = html.Div([
 
 #~~~Callbacks~~~
 
-@app.callback(Output("av-plot", "figure"),
-              Output("dv-plot", "figure"),
+@app.callback(Output("dv-plot", "figure"),
+              Output("av-plot", "figure"),
               Input("config-button", "n_clicks"),
               State("feature-checklist", "value"),
               State("dataset-radio", "value"))

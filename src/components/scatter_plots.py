@@ -24,9 +24,7 @@ def author_vector_plot(df:pd.DataFrame, clicked_author=None):
     fig.update_layout(
         title="<b>Author Vectors</b>",
         title_x=0.47,
-        #autosize=False,
-        #width=500,
-        #height=350,
+        title_y=.85,
         font_family = "Courier New",
         title_font_family = "Courier New",
         hoverlabel = dict(font_size = 16,font_family = "Sitka Small"),
@@ -74,20 +72,17 @@ def document_vector_plot(df:pd.DataFrame, clicked_author=None):
         text=df["author_id"],
         #marker_color=df[author_col],
         #marker=dict(colorscale=["lightgray", "red"], opacity=df["opacity"], color="lightgray"),
-        hovertemplate="<b>Author</b>: %{text}<extra></extra>" 
+        hovertemplate="<b>Author</b>: %{text}<extra></extra>"
     ))
     fig.update_layout(
         title="<b>Document Vectors</b>",
         title_x=0.5,
-       # autosize=False,
-       # width=950,
-       # height=350,
+        title_y=.85,
         font_family="Courier New",
         title_font_family="Courier New",
         hoverlabel=dict(font_size = 16,font_family = "Sitka Small"),
         coloraxis_showscale=False,
         xaxis_title=None,
         yaxis_title=None,
-        #margin=SCATTER_MARGINS
         )
     return fig
