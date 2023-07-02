@@ -1,7 +1,10 @@
 import pandas as pd
 from typing import List, Tuple
 
-from .connect import postgres_connection
+try:
+    from .connect import postgres_connection
+except ImportError:
+    from connect import postgres_connection
 
 
 def retrieve_all_entries(dataset_name:str, level:str, feature:str) -> pd.DataFrame:
@@ -25,7 +28,7 @@ def combine_dfs(dfs:List[pd.DataFrame]) -> pd.DataFrame:
 def select_features(features:List[str], 
                     dataset_name:str
                     ) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """Given a list of features and dataset name, """
+
     doc_dfs = []
     author_dfs = []
     for feature in features:

@@ -132,3 +132,4 @@ dmypy.json
 data/
 src/database/database.ini
 src/testing.ipynb
+src/.saved_combos/

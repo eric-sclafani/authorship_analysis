@@ -13,14 +13,15 @@ from processing import processing
 
 
 # ~~~ Globals ~~~
-PREVIOUS_AUTHOR = []
 
+PREVIOUS_AUTHOR = []
 
 #~~~App~~~
 app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
 app.title = "Authorship Analysis"
 app.layout = html.Div([
-    html.H1(["Header"], className="header"),
+    html.H1(["Authorship analysis"], className="header"),
+    html.H2(["By Eric Sclafani"], className="subheader"),
     html.Div([
         html.Div([
             html.H1("Configuration"),
