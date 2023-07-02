@@ -51,24 +51,15 @@ def author_vector_plot(df:pd.DataFrame, clicked_author=None):
 
 def document_vector_plot(df:pd.DataFrame, clicked_author=None):
     
-    
-    # author_id = get_author_id(clicked_author)
-    # author_col = f"From Author: {author_id}"
-    # if clicked_author is not None:
-    #     doc_ids = get_doc_ids_given_author(clicked_author, docs_df)
-    #     df[author_col] = [1 if n in doc_ids else 0 for n in docs_df["doc_id"]]
-    #     df["opacity"] = np.where(df[author_col] == 1, 1, .45)
-    # else:
-    #     df[author_col] = 1
-    #     df["opacity"] = 1
-    
     fig = go.Figure(go.Scatter(
         mode="markers",
         x=df["TSNE Dim 1"],
         y=df["TSNE Dim 2"],
         text=df["author_id"],
         marker_color="gray",
-        marker=dict(colorscale=["gray", "red"], opacity=1, color="lightgray"),
+        marker=dict(colorscale=["gray", "red"], 
+                    opacity=1, 
+                    color="gray"),
         hovertemplate="<b>Author</b>: %{text}<extra></extra>"
     ))
     fig.update_layout(
@@ -87,9 +78,10 @@ def document_vector_plot(df:pd.DataFrame, clicked_author=None):
 
 # ~~~Helpers~~~
 
-
-
-def get_doc_ids_given_author(author_index:int, doc_df:pd.DataFrame) -> List[str]:
-    """Retrieves the document IDs for all documents written by a given author"""
-    return doc_df.loc[doc_df["author_id"] == authors_df.iloc[author_index].author_id]["doc_id"].to_list()
-
+def get_doc_ids_given_author(author_index:int, 
+                             doc_df:pd.DataFrame,
+                             authors_df:pd.DataFrame) -> List[str]:
+    """Retrieves the document IDs for all documents written by a given author"""    
+    author_id = authors_df.iloc[author_index].name
+    selected_doc_df = doc_df.loc[doc_df["author_id"] == author_id]
+    return selected_doc_df.index.to_list()

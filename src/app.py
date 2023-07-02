@@ -61,11 +61,18 @@ def update_dv_clicked_author(clicked_author):
         x = clicked_author["points"][0]["x"]
         y = clicked_author["points"][0]["y"]
         author_index = clicked_author["points"][0]["pointIndex"]
-        
-        #patch = Patch()
-        print(reduced_doc_df.head())
+        selected_doc_ids = comp.get_doc_ids_given_author(author_index, reduced_doc_df, reduced_author_df)
 
-
+        patched_figure = Patch()
+        updated_markers = [
+            "red" if doc_id in selected_doc_ids else "gray" for doc_id in reduced_doc_df.index 
+        ]
+        updated_opacity = [
+            1 if doc_id in selected_doc_ids else 0.35 for doc_id in reduced_doc_df.index
+        ]
+        patched_figure["data"][0]["marker"]["color"] = updated_markers
+        patched_figure["data"][0]["marker"]["opacity"] = updated_opacity
+        return patched_figure
     
 
 
