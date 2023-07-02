@@ -68,7 +68,7 @@ def get_doc_ids_given_author(author_index:int,
     selected_doc_df = doc_df.loc[doc_df["author_id"] == author_id]
     return selected_doc_df.index.to_list()
 
-
 def get_author_id(author_index:int, authors_df:pd.DataFrame) -> str:
     """Retrieves the author_id of an entry given that author's dataframe index"""
     return authors_df.iloc[author_index].name if author_index is not None else "None"
+

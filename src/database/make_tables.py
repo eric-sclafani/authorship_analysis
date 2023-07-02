@@ -5,7 +5,6 @@ This script is for making postgres tables for a dataset on the document and auth
 import pandas as pd
 import numpy as np
 import argparse
-from sqlalchemy import create_engine
 from dataclasses import dataclass
 from typing import List
 
