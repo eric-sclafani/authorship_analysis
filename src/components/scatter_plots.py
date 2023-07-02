@@ -5,7 +5,7 @@ from typing import List
 
 
 
-def author_vector_plot(df:pd.DataFrame, clicked_author=None):
+def author_vector_plot(df:pd.DataFrame):
 
     fig = go.Figure(
         go.Scatter(
@@ -28,28 +28,10 @@ def author_vector_plot(df:pd.DataFrame, clicked_author=None):
         hoverlabel = dict(font_size = 16,font_family = "Sitka Small"),
         xaxis_title=None,
         yaxis_title=None,
-        )
-    
-#     if clicked_author:
-#         x = clicked_author["points"][0]["x"]
-#         y = clicked_author["points"][0]["y"]
-#         author_index = clicked_author["points"][0]["pointIndex"]
-#         fig.add_trace(
-#             go.Scatter(
-#                 x = [x],
-#                 y = [y],
-#                 mode="markers",
-#                 marker_symbol="circle-open",
-#                 marker_size=16,
-#                 text=get_author_id(author_index),
-#                 hoverinfo="skip",
-#                 showlegend=False
-# )
-#             )
-    
+        )    
     return fig
 
-def document_vector_plot(df:pd.DataFrame, clicked_author=None):
+def document_vector_plot(df:pd.DataFrame):
     
     fig = go.Figure(go.Scatter(
         mode="markers",
@@ -85,3 +67,8 @@ def get_doc_ids_given_author(author_index:int,
     author_id = authors_df.iloc[author_index].name
     selected_doc_df = doc_df.loc[doc_df["author_id"] == author_id]
     return selected_doc_df.index.to_list()
+
+
+def get_author_id(author_index:int, authors_df:pd.DataFrame) -> str:
+    """Retrieves the author_id of an entry given that author's dataframe index"""
+    return authors_df.iloc[author_index].name if author_index is not None else "None"
