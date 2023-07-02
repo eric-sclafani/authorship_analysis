@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import dash
+from dash import Patch
 from dash.dependencies import Input, Output, State
 from dash import html, Dash, dcc
 import dash_bootstrap_components as dbc
@@ -43,14 +43,29 @@ app.layout = html.Div([
               Input("config-button", "n_clicks"),
               State("feature-checklist", "value"),
               State("dataset-radio", "value"))
-def update_author_vector_plot(_, selected_features, selected_dataset):
-    
+def update_scatter_points(_, selected_features, selected_dataset):
     doc_df, author_df = queries.select_features(selected_features, selected_dataset)
+    
+    global reduced_doc_df, reduced_author_df # really sloppy way of doing this, but saves a ton of extra work. Will return to this.
     reduced_doc_df = processing.apply_dv_pipeline(doc_df)
     reduced_author_df = processing.apply_av_pipeline(author_df)
+    
     return comp.document_vector_plot(reduced_doc_df), comp.author_vector_plot(reduced_author_df)
     
-  
+
+@app.callback(Output("dv-plot", "figure", allow_duplicate=True),
+              Input("av-plot", "clickData"),
+              prevent_initial_call=True)
+def update_dv_clicked_author(clicked_author):
+    if clicked_author:
+        x = clicked_author["points"][0]["x"]
+        y = clicked_author["points"][0]["y"]
+        author_index = clicked_author["points"][0]["pointIndex"]
+        
+        #patch = Patch()
+        print(reduced_doc_df.head())
+
+
     
 
 

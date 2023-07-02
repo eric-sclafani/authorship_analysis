@@ -1,8 +1,6 @@
 
-import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
-import numpy as np
 from typing import List
 
 
@@ -14,7 +12,7 @@ def author_vector_plot(df:pd.DataFrame, clicked_author=None):
             mode="markers",
             x=df["MDS Dim 1"],
             y=df["MDS Dim 2"],
-            text=df["author_id"],
+            text=df.index,
             marker_color=df["K Cluster"],
             marker=dict(colorscale=["blue", "red", "orange", "green"]),
             hovertemplate="<b>Author</b>: %{text}<extra></extra>",
@@ -54,7 +52,6 @@ def author_vector_plot(df:pd.DataFrame, clicked_author=None):
 def document_vector_plot(df:pd.DataFrame, clicked_author=None):
     
     
-    
     # author_id = get_author_id(clicked_author)
     # author_col = f"From Author: {author_id}"
     # if clicked_author is not None:
@@ -70,8 +67,8 @@ def document_vector_plot(df:pd.DataFrame, clicked_author=None):
         x=df["TSNE Dim 1"],
         y=df["TSNE Dim 2"],
         text=df["author_id"],
-        #marker_color=df[author_col],
-        #marker=dict(colorscale=["lightgray", "red"], opacity=df["opacity"], color="lightgray"),
+        marker_color="gray",
+        marker=dict(colorscale=["gray", "red"], opacity=1, color="lightgray"),
         hovertemplate="<b>Author</b>: %{text}<extra></extra>"
     ))
     fig.update_layout(
@@ -86,3 +83,13 @@ def document_vector_plot(df:pd.DataFrame, clicked_author=None):
         yaxis_title=None,
         )
     return fig
+
+
+# ~~~Helpers~~~
+
+
+
+def get_doc_ids_given_author(author_index:int, doc_df:pd.DataFrame) -> List[str]:
+    """Retrieves the document IDs for all documents written by a given author"""
+    return doc_df.loc[doc_df["author_id"] == authors_df.iloc[author_index].author_id]["doc_id"].to_list()
+

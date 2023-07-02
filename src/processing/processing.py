@@ -33,11 +33,11 @@ def apply_dv_pipeline(df:pd.DataFrame) -> np.ndarray:
         ])
     reduced = doc_pipeline.fit_transform(df.select_dtypes(include=np.number))
     return pd.DataFrame({
-        "document_id" : df.index,
         "author_id" : df["author_id"],
         "TSNE Dim 1" : reduced[:, 0],
         "TSNE Dim 2" : reduced[:, 1]
-    })
+    },
+                        index=df.index)
    
 def apply_av_kmeans(dim_reduced_df:pd.DataFrame, k=6) -> KMeans:
     """Applies KMeans to cluster authors with more similar writing styles together based off vector similarity"""
@@ -53,9 +53,9 @@ def apply_av_pipeline(df:pd.DataFrame) -> pd.DataFrame:
     reduced = author_pipeline.fit_transform(df.select_dtypes(include=np.number))
     kmeans = apply_av_kmeans(reduced)
     return pd.DataFrame({
-        "author_id" : df.index,
         "MDS Dim 1" : reduced[:, 0],
         "MDS Dim 2" : reduced[:, 1],
         "K Cluster" : kmeans.labels_
-    })
+    }, 
+                        index=df.index)
 
